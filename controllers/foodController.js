@@ -47,3 +47,27 @@ export const listFood = async (req, res) => {
     return res.status(500).json({ success: false, message: "Failed to fetch food list" });
   }
 };
+
+// REMOVE
+export const removeFood = async (req, res) => {
+  try {
+    const id = req.body?.id || req.query?.id;
+
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ success: false, message: "Invalid id" });
+    }
+
+    const doc = await foodModel.findById(id);
+    if (!doc) {
+      return res.status(404).json({ success: false, message: "Not found" });
+    }
+
+    await doc.deleteOne();
+
+    return res.json({ success: true, message: "Food removed" });
+
+  } catch (error) {
+    console.error("Remove error:", error);
+    return res.status(500).json({ success: false, message: "Failed to remove food" });
+  }
+};
