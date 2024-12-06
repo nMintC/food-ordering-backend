@@ -79,3 +79,55 @@ export const placeOrder = async (req, res) => {
   }
 };
 
+// Verify payment result from frontend (Simulated Webhook)
+export const verifyOrder = async (req, res) => {
+  const { orderId, success } = req.body || {};
+  try {
+    if (!orderId) {
+      return res.status(400).json({ success: false, message: "orderId is required" });
+    }
+    if (String(success) === "true") {
+      await Order.findByIdAndUpdate(orderId, { payment: true });
+      return res.json({ success: true, message: "Paid" });
+    } else {
+      await Order.findByIdAndDelete(orderId);
+      return res.json({ success: false, message: "Payment failed, order cancelled" });
+    }
+  } catch (error) {
+    console.error("Error verifying order:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// Get User's order list (for Frontend)
+export const userOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ userId: req.user.id });
+    res.json({ success: true, orders });
+  } catch (error) {
+    console.error("Error fetching user orders:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// Get ALL orders list (for Admin Panel)
+export const listOrders = async (req, res) => {
+  try {
+    const orders = await Order.find();
+    res.json({ success: true, orders });
+  } catch (error) {
+    console.error("Error fetching orders:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+// Update order status (for Admin Panel)
+export const updateStatus = async (req, res) => {
+  try {
+    await orderModel.findByIdAndUpdate(req.body.orderId, { status: req.body.status });
+    res.json({ success: true, message: "Status updated" });
+  } catch (error) {
+    console.error("Error updating status:", error);
+    res.json({ success: false, message: "Error" });
+  }
+}
