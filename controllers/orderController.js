@@ -121,13 +121,3 @@ export const listOrders = async (req, res) => {
   }
 };
 
-// Update order status (for Admin Panel)
-export const updateStatus = async (req, res) => {
-  try {
-    await orderModel.findByIdAndUpdate(req.body.orderId, { status: req.body.status });
-    res.json({ success: true, message: "Status updated" });
-  } catch (error) {
-    console.error("Error updating status:", error);
-    res.json({ success: false, message: "Error" });
-  }
-}
