@@ -11,7 +11,9 @@ import userRouter from "./routes/userRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 import orderRoute from "./routes/orderRoute.js";
 import cookieParser from "cookie-parser";
-
+import swaggerJsdoc from "swagger-jsdoc";
+import swaggerUi from "swagger-ui-express";
+import swaggerConfig from "./swagger.config.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -73,6 +75,26 @@ app.use("/api/food", foodRouter);
 app.use("/api/user", userRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/order", orderRoute);
+
+// Generate Swagger specification
+const swaggerSpec = swaggerJsdoc(swaggerConfig);
+
+// Swagger UI endpoint
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  swaggerOptions: {
+    docExpansion: 'list',
+    persistAuthorization: false,
+    displayOperationId: false,
+    defaultModelsExpandDepth: 1,
+    defaultModelExpandDepth: 1
+  }
+}));
+
+// Swagger JSON spec endpoint
+app.get("/swagger/v1/swagger.json", (_req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
 
 app.get("/", (_req, res) => res.send("API working"));
 
