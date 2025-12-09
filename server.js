@@ -1,3 +1,4 @@
+// API Configuration
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
@@ -8,7 +9,7 @@ import { connectDB } from "./config/db.js";
 import foodRouter from "./routes/foodRoute.js";
 import userRouter from "./routes/userRoute.js";
 import cartRouter from "./routes/cartRoute.js";
-import orderRoute from "./routes/orderRoute.js"; 
+import orderRoute from "./routes/orderRoute.js";
 import cookieParser from "cookie-parser";
 
 
@@ -64,7 +65,7 @@ app.use((err, req, res, next) => {
 // db
 connectDB();
 
-console.log("Stripe key prefix:", process.env.STRIPE_SECRET?.slice(0,7));
+console.log("Stripe key prefix:", process.env.STRIPE_SECRET?.slice(0, 7));
 
 // routes
 app.use("/image", express.static(uploadDir));
