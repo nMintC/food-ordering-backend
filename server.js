@@ -31,17 +31,9 @@ const whitelist = [
 
 // Cấu hình chi tiết
 const corsOptions = {
-  origin: function (origin, callback) {
-    // Cho phép các request không có origin (như Postman, Server-to-Server) hoặc nằm trong whitelist
-    if (!origin || whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error('Can not access because of CORS Error'));
-    }
-  },
-  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], // Các method được phép
-  credentials: true, // Cho phép gửi cookie/token nếu cần
-  allowedHeaders: ["Content-Type", "Authorization"] // Các header được phép
+  origin: whitelist,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  credentials: true
 };
 
 // log gọn mỗi request
