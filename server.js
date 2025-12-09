@@ -25,8 +25,8 @@ const PORT = process.env.PORT || 4000;
 const whitelist = [
   "http://localhost:5174",
   "http://localhost:5173",
-  "https://food-delivery-frontend-opal.vercel.app",
-  "https://food-delivery-admin-fawn.vercel.app"
+  "https://food-ordering-frontend-opal.vercel.app/",
+  "https://food-ordering-admin-fawn.vercel.app/"
 ];
 
 // Cấu hình chi tiết
