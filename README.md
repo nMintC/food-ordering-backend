@@ -23,9 +23,9 @@ A full-stack food ordering application built with the MERN stack (MongoDB, Expre
 
 1. **Clone the repository**
    ```bash
-   git clone [https://github.com/your-username/food-ordering-backend.git](https://github.com/your-username/food-ordering-backend.git)
+   git clone https://github.com/nMintC/food-ordering-backend.git
    cd food-ordering-backend
-````
+   ```
 
 2.  **Install dependencies**
 
